@@ -7,7 +7,8 @@ using System.Windows.Forms;
 
 namespace SimpleRubicsCube
 {
-    enum colors { RED, BLUE, GREEN, WHITE, ORANGE, YELLOW }
+    enum colors { RED, BLUE, GREEN, WHITE, ORANGE, YELLOW, BLACK }
+    enum sides { FRONT, BACK, LEFT, RIGHT, TOP, BOTTOM }
 
     class Render
     {
@@ -28,7 +29,6 @@ namespace SimpleRubicsCube
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
         }
         private SimpleOpenGlControl graphics;
-        private static double i = 0;
 
         private void setColor(int color)
         {
@@ -52,6 +52,9 @@ namespace SimpleRubicsCube
                 case (int)colors.YELLOW:
                     Gl.glColor3d(1, 1, 0);
                     break;
+                case (int)colors.BLACK:
+                    Gl.glColor3d(0, 0, 0);
+                    break;
             }
 
         }
@@ -63,20 +66,34 @@ namespace SimpleRubicsCube
                           0.0, 1.0, 0.0);
         }
 
-        private void drawCube(int faceColor, int sideColor)
+
+
+        private void drawFaceOfaCube(int side)
         {
-
             Gl.glPushMatrix();
-            Gl.glColor3d(0, 0, 0);
-            Gl.glScaled(0.2,0.2,0.2);
-            Gl.glRotated(-20,1,0,0);
-            Gl.glRotated(i,0,1,0);
-            Glut.glutWireCube(1.001); // to prevent Z-fighting we make wireCube 0.001 points larger
+
+            switch (side)
+            {
+                case (int)sides.FRONT:
+                    Gl.glTranslated(0, 0, -1);
+                    break;
+                case (int)sides.BACK:
+                    break;
+                case (int)sides.LEFT:
+                    Gl.glRotated(90,0,1,0);
+                    break;
+                case (int)sides.RIGHT:
+                    Gl.glRotated(-90, 0, 1, 0);
+                    break;
+                case (int)sides.TOP:
+                    Gl.glRotated(-90, 1, 0, 0);
+                    break;
+                case (int)sides.BOTTOM:
+                    Gl.glRotated(90, 1, 0, 0);
+                    break;
+            }
+
             Gl.glBegin(Gl.GL_TRIANGLES);
-
-            /*** drawing face of a cube ***/
-
-            setColor(faceColor);
 
             Gl.glVertex3d(-0.5, -0.5, 0.5);
             Gl.glVertex3d(-0.5, 0.5, 0.5);
@@ -86,36 +103,43 @@ namespace SimpleRubicsCube
             Gl.glVertex3d(0.5, 0.5, 0.5);
             Gl.glVertex3d(0.5, -0.5, 0.5);
 
-            /*** drawing side of a cube ***/
-
-            Gl.glVertex3d(-0.5, -0.5, -0.5);
-            Gl.glVertex3d(-0.5, 0.5, -0.5);
-            Gl.glVertex3d(-0.5, -0.5, 0.5);
-
-            Gl.glVertex3d(-0.5, 0.5, -0.5);
-            Gl.glVertex3d(-0.5, 0.5, 0.5);
-            Gl.glVertex3d(-0.5, -0.5, 0.5);
-
             Gl.glEnd();
+
             Gl.glPopMatrix();
-            i+=0.5;
-        }
-
-
-        public void drawUpperSegment()
-        {
             
         }
 
-        public void drawMiddleSegment()
+        private void drawCube(int side1Color, int side2Color, int side3Color)
         {
 
+            Gl.glPushMatrix();
+            Gl.glColor3d(0, 0, 0);
+            Gl.glScaled(0.2,0.2,0.2);
+            Glut.glutWireCube(1.001); // to prevent Z-fighting we make wireCube 0.001 points larger         
+
+
+            setColor(side1Color);
+            drawFaceOfaCube((int)sides.FRONT);
+
+            setColor(side2Color);
+            drawFaceOfaCube((int)sides.LEFT);
+
+            setColor(side3Color);
+            drawFaceOfaCube((int)sides.TOP);
+
+            setColor((int)colors.BLACK);
+            drawFaceOfaCube((int)sides.BOTTOM);
+
+            setColor((int)colors.BLACK);
+            drawFaceOfaCube((int)sides.RIGHT);
+
+            setColor((int)colors.BLACK);
+            drawFaceOfaCube((int)sides.BACK);
+
+            Gl.glPopMatrix();
         }
 
-        public void drawLowerSegment()
-        {
 
-        }
 
         public void drawAll()
         {
@@ -123,10 +147,12 @@ namespace SimpleRubicsCube
             Gl.glLoadIdentity();
 
             renderCamera();
-            drawCube((int)colors.BLUE,(int)colors.GREEN);
+            drawCube((int)colors.BLUE,(int)colors.GREEN, (int)colors.RED);
 
             Gl.glFlush();
             graphics.Invalidate();
         }
+
+
     }
 }
