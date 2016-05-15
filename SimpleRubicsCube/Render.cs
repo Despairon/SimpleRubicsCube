@@ -104,7 +104,7 @@ namespace SimpleRubicsCube
 
         public void drawUpperSegment()
         {
-
+            MessageBox.Show("goose");
         }
 
         public void drawMiddleSegment()
