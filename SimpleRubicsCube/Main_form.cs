@@ -16,7 +16,9 @@ namespace SimpleRubicsCube
         {
             InitializeComponent();
             Render.init(ref openGLcanvas);
+            cube = new RubiksCube();
         }
+        private RubiksCube cube;
 
         private void renderTimer_Tick(object sender, EventArgs e)
         {

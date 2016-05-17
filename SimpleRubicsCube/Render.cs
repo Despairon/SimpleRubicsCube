@@ -2,11 +2,32 @@
 using Tao.OpenGl;
 using Tao.FreeGlut;
 using Tao.Platform.Windows;
+using System;
+using System.Windows.Forms;
 
 namespace SimpleRubicsCube
 {
-    enum colors { RED, BLUE, GREEN, WHITE, ORANGE, YELLOW, BLACK }
-    enum sides { FRONT, BACK, LEFT, RIGHT, TOP, BOTTOM }
+    public enum colors
+    {
+        BLACK = 0,
+        RED = 1,
+        BLUE = 2,
+        GREEN = 4,
+        WHITE = 8,
+        ORANGE = 16,
+        YELLOW = 32,
+    }
+
+    public enum sides
+    {
+        NONE = 0,
+        FRONT = 1,
+        BACK = 2,
+        LEFT = 4,
+        RIGHT = 8,
+        TOP = 16,
+        BOTTOM = 32
+    }
 
     abstract public class Render
     {
@@ -16,7 +37,7 @@ namespace SimpleRubicsCube
             graphics.InitializeContexts();
             Glut.glutInit();
             Glut.glutInitDisplayMode(Glut.GLUT_RGB | Glut.GLUT_DOUBLE | Glut.GLUT_DEPTH);
-            Gl.glClearColor(1, 1, 1, 1);
+            Gl.glClearColor(0.94f, 0.94f, 0.94f, 1);
             Gl.glViewport(0, 0, graphics.Width, graphics.Height);
             Gl.glMatrixMode(Gl.GL_PROJECTION);
             Gl.glLoadIdentity();
@@ -30,7 +51,6 @@ namespace SimpleRubicsCube
         }
         private static SimpleOpenGlControl graphics;
         public static List<CubePiece> pieces;
-        //private static double i = 0;
 
 
         public static void setColor(int color)
@@ -44,7 +64,7 @@ namespace SimpleRubicsCube
                     Gl.glColor3d(0, 1, 0);
                     break;
                 case (int)colors.ORANGE:
-                    Gl.glColor3d(1, 0.62, 0);
+                    Gl.glColor3d(1, 0.30, 0);
                     break;
                 case (int)colors.RED:
                     Gl.glColor3d(1, 0, 0);
@@ -75,16 +95,16 @@ namespace SimpleRubicsCube
             Gl.glLoadIdentity();
 
             renderCamera();
-
+            
+            //DateTime time = DateTime.Now;
+            //int tics = (int)time.Ticks;
             //Gl.glPushMatrix();
-            //Gl.glRotated(i,1,0,0);
-
+            //Gl.glRotated(tics/200000, 0, 1, 0);
 
             foreach (var cube in pieces)
                 cube.draw();
 
             //Gl.glPopMatrix();
-            //i += 0.5;
 
             Gl.glFlush();
             graphics.Invalidate();
@@ -92,16 +112,31 @@ namespace SimpleRubicsCube
 
         public class CubePiece
         {
-            public CubePiece(int side1Color, int side2Color, int side3Color)
+            public CubePiece(int side1Color, int side1,
+                             int side2Color, int side2,
+                             int side3Color, int side3,
+                             double x, double y, double z)
             {
                 this.side1Color = side1Color;
+                this.side1 = side1;
                 this.side2Color = side2Color;
+                this.side2 = side2;
                 this.side3Color = side3Color;
+                this.side3 = side3;
+                this.x = x;
+                this.y = y;
+                this.z = z;
                 pieces.Add(this);
             }
             public int side1Color { get;}
             public int side2Color { get; }
             public int side3Color { get; }
+            public int side1 { get; }
+            public int side2 { get; }
+            public int side3 { get; }
+            public double x { get; }
+            public double y { get; }
+            public double z { get; }
 
 
             private void drawFace(int side)
@@ -150,27 +185,25 @@ namespace SimpleRubicsCube
 
                 Gl.glPushMatrix();
                 Gl.glColor3d(0, 0, 0);
-                Gl.glScaled(0.2, 0.2, 0.2);
+                Gl.glScaled(0.15, 0.15, 0.15);
+                Gl.glTranslated(x,y,z);
                 Glut.glutWireCube(1.001); // to prevent Z-fighting we make wireCube 0.001 points larger         
 
-
                 setColor(side1Color);
-                drawFace((int)sides.FRONT);
+                drawFace(side1);
 
                 setColor(side2Color);
-                drawFace((int)sides.LEFT);
+                drawFace(side2);
 
                 setColor(side3Color);
-                drawFace((int)sides.TOP);
+                drawFace(side3);
 
-                setColor((int)colors.BLACK);
-                drawFace((int)sides.BOTTOM);
-
-                setColor((int)colors.BLACK);
-                drawFace((int)sides.RIGHT);
-
-                setColor((int)colors.BLACK);
-                drawFace((int)sides.BACK);
+                foreach (int i in Enum.GetValues(typeof(sides)))
+                    if (i != side1 && i != side2 && i != side3)
+                    {
+                        setColor((int)colors.BLACK);
+                        drawFace(i);
+                    }
 
                 Gl.glPopMatrix();
             }
