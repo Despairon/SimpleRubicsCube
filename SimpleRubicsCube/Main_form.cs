@@ -15,13 +15,12 @@ namespace SimpleRubicsCube
         public Main_form()
         {
             InitializeComponent();
-            render = new Render(ref openGLcanvas);
+            Render.init(ref openGLcanvas);
         }
-        Render render;
 
         private void renderTimer_Tick(object sender, EventArgs e)
         {
-            render.drawAll();
+            Render.drawAll();
         }
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)

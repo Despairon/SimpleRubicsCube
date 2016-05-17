@@ -67,6 +67,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Render.cs" />
+    <Compile Include="RubiksCube.cs" />
     <EmbeddedResource Include="Main_form.resx">
       <DependentUpon>Main_form.cs</DependentUpon>
     </EmbeddedResource>
@@ -78,6 +79,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -91,6 +93,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cube_rotate_arrow_up.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cube_rotate_arrow_right.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cube_rotate_arrow_down.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cube_rotate_arrow_left.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
