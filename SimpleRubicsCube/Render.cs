@@ -94,18 +94,19 @@ namespace SimpleRubicsCube
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
             Gl.glLoadIdentity();
 
+
             renderCamera();
-            
+
             //DateTime time = DateTime.Now;
             //int tics = (int)time.Ticks;
             //Gl.glPushMatrix();
-            //Gl.glRotated(tics/200000, 0, 1, 0);
-
+            //Gl.glRotated(tics / 200000, 0, 1, 0);
+            
             foreach (var cube in pieces)
                 cube.draw();
 
-            //Gl.glPopMatrix();
 
+            //Gl.glPopMatrix();
             Gl.glFlush();
             graphics.Invalidate();
         }
