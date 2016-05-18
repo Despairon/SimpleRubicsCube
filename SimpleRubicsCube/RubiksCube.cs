@@ -21,120 +21,120 @@ namespace SimpleRubicsCube
             frontSide.left.topPiece = new Render.CubePiece(  (int)colors.WHITE,  (int)sides.FRONT,
                                                              (int)colors.RED,    (int)sides.LEFT,
                                                              (int)colors.GREEN,  (int)sides.TOP,
-                                                              1, 1, 0);
+                                                              1, 1, -1);
             frontSide.left.midPiece = new Render.CubePiece(  (int)colors.YELLOW, (int)sides.FRONT,
                                                              (int)colors.BLUE,   (int)sides.LEFT,
                                                              (int)colors.BLACK,  (int)sides.TOP,
-                                                              1, 0, 0);
+                                                              1, 0, -1);
             frontSide.left.botPiece = new Render.CubePiece(  (int)colors.WHITE,  (int)sides.FRONT,
                                                              (int)colors.RED,    (int)sides.LEFT,
                                                              (int)colors.BLUE,   (int)sides.BOTTOM,
-                                                              1, -1, 0);
+                                                              1, -1, -1);
 
             frontSide.middle.topPiece = new Render.CubePiece((int)colors.ORANGE, (int)sides.FRONT,
                                                              (int)colors.BLUE,   (int)sides.TOP,
                                                              (int)colors.BLACK,  (int)sides.BOTTOM,
-                                                              0, 1, 0);
+                                                              0, 1, -1);
             frontSide.middle.midPiece = new Render.CubePiece((int)colors.GREEN,  (int)sides.FRONT,
                                                              (int)colors.BLACK,  (int)sides.TOP,
                                                              (int)colors.BLACK,  (int)sides.BOTTOM,
-                                                              0, 0, 0);
+                                                              0, 0, -1);
             frontSide.middle.botPiece = new Render.CubePiece((int)colors.ORANGE, (int)sides.FRONT,
                                                              (int)colors.GREEN,  (int)sides.BOTTOM,
                                                              (int)colors.BLACK,  (int)sides.TOP,
-                                                              0, -1, 0);
+                                                              0, -1, -1);
 
             frontSide.right.topPiece = new Render.CubePiece( (int)colors.BLUE,    (int)sides.FRONT,
                                                              (int)colors.YELLOW,  (int)sides.RIGHT,
                                                              (int)colors.ORANGE,  (int)sides.TOP,
-                                                             -1, 1, 0);
+                                                             -1, 1, -1);
             frontSide.right.midPiece = new Render.CubePiece( (int)colors.GREEN,   (int)sides.FRONT,
                                                              (int)colors.WHITE,   (int)sides.RIGHT,
                                                              (int)colors.BLACK,   (int)sides.TOP,
-                                                             -1, 0, 0);
+                                                             -1, 0, -1);
             frontSide.right.botPiece = new Render.CubePiece( (int)colors.WHITE,   (int)sides.FRONT,
                                                              (int)colors.GREEN,   (int)sides.RIGHT,
                                                              (int)colors.ORANGE,  (int)sides.BOTTOM,
-                                                             -1, -1, 0);
+                                                             -1, -1, -1);
 
 
             middleSide.left.topPiece = new Render.CubePiece(  (int)colors.YELLOW, (int)sides.LEFT,
                                                               (int)colors.GREEN,  (int)sides.TOP,
                                                               (int)colors.BLACK,  (int)sides.RIGHT,
-                                                               1, 1, 1);
+                                                               1, 1, 0);
             middleSide.left.midPiece = new Render.CubePiece(  (int)colors.WHITE,  (int)sides.LEFT,
                                                               (int)colors.BLACK,  (int)sides.RIGHT,
                                                               (int)colors.BLACK,  (int)sides.TOP,
-                                                               1, 0, 1);
+                                                               1, 0, 0);
             middleSide.left.botPiece = new Render.CubePiece(  (int)colors.RED,    (int)sides.LEFT,
                                                               (int)colors.BLUE,   (int)sides.BOTTOM,
                                                               (int)colors.BLACK,  (int)sides.RIGHT,
-                                                               1, -1, 1);
+                                                               1, -1, 0);
 
             middleSide.middle.topPiece = new Render.CubePiece((int)colors.RED,    (int)sides.TOP,
                                                               (int)colors.BLACK,  (int)sides.BACK,
                                                               (int)colors.BLACK,  (int)sides.BOTTOM,
-                                                               0, 1, 1);
+                                                               0, 1, 0);
             middleSide.middle.midPiece = new Render.CubePiece((int)colors.BLACK,  (int)sides.FRONT,
                                                               (int)colors.BLACK,  (int)sides.TOP,
                                                               (int)colors.BLACK,  (int)sides.BOTTOM,
-                                                               0, 0, 1);
+                                                               0, 0, 0);
             middleSide.middle.botPiece = new Render.CubePiece((int)colors.ORANGE, (int)sides.BOTTOM,
                                                               (int)colors.BLACK,  (int)sides.FRONT,
                                                               (int)colors.BLACK,  (int)sides.TOP,
-                                                               0, -1, 1);
+                                                               0, -1, 0);
 
             middleSide.right.topPiece = new Render.CubePiece( (int)colors.YELLOW, (int)sides.RIGHT,
                                                               (int)colors.RED,    (int)sides.TOP,
                                                               (int)colors.BLACK,  (int)sides.LEFT,
-                                                              -1, 1, 1);
+                                                              -1, 1, 0);
             middleSide.right.midPiece = new Render.CubePiece( (int)colors.YELLOW, (int)sides.RIGHT,
                                                               (int)colors.BLACK,  (int)sides.FRONT,
                                                               (int)colors.BLACK,  (int)sides.LEFT,
-                                                              -1, 0, 1);
+                                                              -1, 0, 0);
             middleSide.right.botPiece = new Render.CubePiece( (int)colors.YELLOW, (int)sides.RIGHT,
                                                               (int)colors.ORANGE, (int)sides.BOTTOM,
                                                               (int)colors.ORANGE, (int)sides.LEFT,
-                                                              -1, -1, 1);
+                                                              -1, -1, 0);
 
             farSide.left.topPiece = new Render.CubePiece(     (int)colors.GREEN,  (int)sides.LEFT,
                                                               (int)colors.YELLOW, (int)sides.TOP,
                                                               (int)colors.RED,    (int)sides.BACK,
-                                                               1, 1, 2);
+                                                               1, 1, 1);
             farSide.left.midPiece = new Render.CubePiece(     (int)colors.RED,    (int)sides.LEFT,
                                                               (int)colors.GREEN,  (int)sides.BACK,
                                                               (int)colors.BLACK,  (int)sides.RIGHT,
-                                                               1, 0, 2);
+                                                               1, 0, 1);
             farSide.left.botPiece = new Render.CubePiece(     (int)colors.BLUE,   (int)sides.LEFT,
                                                               (int)colors.RED,    (int)sides.BACK,
                                                               (int)colors.YELLOW, (int)sides.BOTTOM,
-                                                               1, -1, 2);
+                                                               1, -1, 1);
 
             farSide.middle.topPiece = new Render.CubePiece(   (int)colors.ORANGE, (int)sides.BACK,
                                                               (int)colors.WHITE,  (int)sides.TOP,
                                                               (int)colors.BLACK,  (int)sides.FRONT,
-                                                               0, 1, 2);
+                                                               0, 1, 1);
             farSide.middle.midPiece = new Render.CubePiece(   (int)colors.BLUE,   (int)sides.BACK,
                                                               (int)colors.BLACK,  (int)sides.FRONT,
                                                               (int)colors.BLACK,  (int)sides.BOTTOM,
-                                                               0, 0, 2);
+                                                               0, 0, 1);
             farSide.middle.botPiece = new Render.CubePiece(   (int)colors.RED,    (int)sides.BACK,
                                                               (int)colors.WHITE,  (int)sides.BOTTOM,
                                                               (int)colors.BLACK,  (int)sides.FRONT,
-                                                               0, -1, 2);
+                                                               0, -1, 1);
 
             farSide.right.topPiece = new Render.CubePiece(    (int)colors.ORANGE, (int)sides.BACK,
                                                               (int)colors.BLUE,   (int)sides.RIGHT,
                                                               (int)colors.WHITE,  (int)sides.TOP,
-                                                              -1, 1, 2);
+                                                              -1, 1, 1);
             farSide.right.midPiece = new Render.CubePiece(    (int)colors.WHITE,  (int)sides.BACK,
                                                               (int)colors.BLUE,   (int)sides.RIGHT,
                                                               (int)colors.BLACK,  (int)sides.LEFT,
-                                                              -1, 0, 2);
+                                                              -1, 0, 1);
             farSide.right.botPiece = new Render.CubePiece(    (int)colors.ORANGE, (int)sides.BACK,
                                                               (int)colors.YELLOW, (int)sides.RIGHT,
                                                               (int)colors.GREEN,  (int)sides.BOTTOM,
-                                                              -1, -1, 2);
+                                                              -1, -1, 1);
 
             cubeMatrix[0, 0, 0] = frontSide.left.topPiece; cubeMatrix[0, 0, 1] = frontSide.middle.topPiece; cubeMatrix[0, 0, 2] = frontSide.right.topPiece;
             cubeMatrix[0, 1, 0] = frontSide.left.midPiece; cubeMatrix[0, 1, 1] = frontSide.middle.midPiece; cubeMatrix[0, 1, 2] = frontSide.right.midPiece;

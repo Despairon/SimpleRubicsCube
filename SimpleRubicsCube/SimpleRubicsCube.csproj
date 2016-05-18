@@ -66,6 +66,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Render.cs" />
     <Compile Include="RubiksCube.cs" />
     <EmbeddedResource Include="Main_form.resx">
@@ -73,14 +78,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -95,16 +95,28 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="cube_rotate_arrow_up.jpg" />
+    <None Include="images\cube_rotate_arrow_up.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="cube_rotate_arrow_right.jpg" />
+    <None Include="images\cube_rotate_arrow_right.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="cube_rotate_arrow_down.jpg" />
+    <None Include="images\cube_rotate_arrow_down.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="cube_rotate_arrow_left.jpg" />
+    <None Include="images\cube_rotate_arrow_left.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\side_rotate_arrow_up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\side_rotate_arrow_left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\side_rotate_arrow_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\side_rotate_arrow_right.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

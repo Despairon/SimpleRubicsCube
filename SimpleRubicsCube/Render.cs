@@ -97,16 +97,17 @@ namespace SimpleRubicsCube
 
             renderCamera();
 
-            //DateTime time = DateTime.Now;
-            //int tics = (int)time.Ticks;
-            //Gl.glPushMatrix();
-            //Gl.glRotated(tics / 200000, 0, 1, 0);
+            DateTime time = DateTime.Now;
+            int tics = (int)time.Ticks;
+            Gl.glPushMatrix();
+            Gl.glRotated(tics / 200000, 0, 1, 0);
             
+
             foreach (var cube in pieces)
                 cube.draw();
 
 
-            //Gl.glPopMatrix();
+            Gl.glPopMatrix();
             Gl.glFlush();
             graphics.Invalidate();
         }
