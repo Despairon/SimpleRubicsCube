@@ -225,6 +225,7 @@
             this.bRotateCubeDown.Size = new System.Drawing.Size(48, 48);
             this.bRotateCubeDown.TabIndex = 16;
             this.bRotateCubeDown.UseVisualStyleBackColor = true;
+            this.bRotateCubeDown.Click += new System.EventHandler(this.bRotateCubeDown_Click);
             // 
             // bRotateCubeLeft
             // 
@@ -234,6 +235,7 @@
             this.bRotateCubeLeft.Size = new System.Drawing.Size(48, 48);
             this.bRotateCubeLeft.TabIndex = 15;
             this.bRotateCubeLeft.UseVisualStyleBackColor = true;
+            this.bRotateCubeLeft.Click += new System.EventHandler(this.bRotateCubeLeft_Click);
             // 
             // bRotateCubeRight
             // 
@@ -243,6 +245,7 @@
             this.bRotateCubeRight.Size = new System.Drawing.Size(48, 48);
             this.bRotateCubeRight.TabIndex = 14;
             this.bRotateCubeRight.UseVisualStyleBackColor = true;
+            this.bRotateCubeRight.Click += new System.EventHandler(this.bRotateCubeRight_Click);
             // 
             // bRotateCubeUp
             // 
@@ -252,6 +255,7 @@
             this.bRotateCubeUp.Size = new System.Drawing.Size(48, 48);
             this.bRotateCubeUp.TabIndex = 13;
             this.bRotateCubeUp.UseVisualStyleBackColor = true;
+            this.bRotateCubeUp.Click += new System.EventHandler(this.bRotateCubeUp_Click);
             // 
             // Main_form
             // 

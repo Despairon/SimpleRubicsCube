@@ -29,9 +29,18 @@ namespace SimpleRubicsCube
         BOTTOM = 32
     }
 
+    public enum directions
+    {
+        NONE = 0,
+        UP = 1,
+        DOWN = 2,
+        LEFT = 4,
+        RIGHT = 8
+    }
+
     abstract public class Render
     {
-        public static void init(ref SimpleOpenGlControl canvas)
+        unsafe public static void init(ref SimpleOpenGlControl canvas)
         {
             graphics = canvas;
             graphics.InitializeContexts();
@@ -46,12 +55,79 @@ namespace SimpleRubicsCube
             Gl.glLoadIdentity();
             Gl.glEnable(Gl.GL_DEPTH_TEST);
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
-
+            
             pieces = new List<CubePiece>(27);
+            
+            fixed(double *cX = &xCubeRotAngle, cY = &yCubeRotAngle, cZ = &zCubeRotAngle)
+            {
+                currAxisX = cX;
+                currAxisY = cY;
+                currAxisZ = cZ;
+            }
         }
         private static SimpleOpenGlControl graphics;
         public static List<CubePiece> pieces;
 
+        private static double xCubeRotAngle = 0;
+        private static double yCubeRotAngle = 0;
+        private static double zCubeRotAngle = 0;
+
+        private static int rotationTics = 0; // one rotation is done in 100 tics
+
+        unsafe private static double* currAxisX;
+        unsafe private static double* currAxisY;
+        unsafe private static double* currAxisZ;
+
+        unsafe private static double rotAngle
+        {
+            set
+            {
+                
+                switch (RubiksCube.rotatingDirection)
+                {
+                    case (int)directions.UP:
+                        *currAxisX += value;
+                        break;
+                    case (int)directions.DOWN:
+                        *currAxisX -= value;
+                        break;
+                    case (int)directions.LEFT:
+                        *currAxisY -= value;
+                        break;
+                    case (int)directions.RIGHT:
+                        *currAxisY += value;
+                        break;
+                    default: break;
+                }
+            }
+        }
+
+        unsafe private static void changeAxises()
+        {
+                switch (RubiksCube.rotatingDirection)
+                {
+                    case (int)directions.UP:
+                        swapAxises(currAxisY, currAxisZ);
+                        break;
+                    case (int)directions.DOWN:
+                        swapAxises(currAxisY, currAxisZ);
+                        break;
+                    case (int)directions.LEFT:
+                        swapAxises(currAxisX, currAxisZ);
+                        break;
+                    case (int)directions.RIGHT:
+                        swapAxises(currAxisX, currAxisZ);
+                        break;
+                    default: break;
+                }
+        }
+
+        unsafe private static void swapAxises(double* axis1, double* axis2)
+        {
+            double* temp = axis1;
+            axis1 = axis2;
+            axis2 = temp;
+        }
 
         public static void setColor(int color)
         {
@@ -89,24 +165,41 @@ namespace SimpleRubicsCube
                           0.0, 1.0, 0.0);
         }
 
-        public static void drawAll()
+        unsafe public static void drawAll()
         {
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
             Gl.glLoadIdentity();
 
-
             renderCamera();
 
-            DateTime time = DateTime.Now;
-            int tics = (int)time.Ticks;
             Gl.glPushMatrix();
-            Gl.glRotated(tics / 200000, 0, 1, 0);
-            
 
+            if (RubiksCube.isCubeRotating)
+            {
+                rotAngle = (float)9 / (float)10;
+                rotationTics++;
+                if (rotationTics == 100)
+                {
+                    changeAxises();
+                    RubiksCube.stopCubeRotating();
+                    rotationTics = 0;
+                    MessageBox.Show("X :" + currAxisX->ToString());
+                    MessageBox.Show("Y :" + currAxisY->ToString());
+                    MessageBox.Show("Z :" + currAxisZ->ToString());
+
+                }
+                
+            }
+
+            Gl.glRotated(xCubeRotAngle, 1, 0, 0);
+            Gl.glRotated(yCubeRotAngle, 0, 1, 0);
+            Gl.glRotated(zCubeRotAngle, 0, 0, 1);
+
+           
             foreach (var cube in pieces)
                 cube.draw();
 
-
+            
             Gl.glPopMatrix();
             Gl.glFlush();
             graphics.Invalidate();
@@ -139,7 +232,6 @@ namespace SimpleRubicsCube
             public double x { get; }
             public double y { get; }
             public double z { get; }
-
 
             private void drawFace(int side)
             {

@@ -16,9 +16,9 @@ namespace SimpleRubicsCube
         {
             InitializeComponent();
             Render.init(ref openGLcanvas);
-            cube = new RubiksCube();
+            RubiksCube.buildCube();
+            RubiksCube.form = this;
         }
-        private RubiksCube cube;
 
         private void renderTimer_Tick(object sender, EventArgs e)
         {
@@ -28,6 +28,49 @@ namespace SimpleRubicsCube
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void bRotateCubeUp_Click(object sender, EventArgs e)
+        {
+            Enabled = false;
+            RubiksCube.rotateCubeUp();
+        }
+
+        private void bRotateCubeDown_Click(object sender, EventArgs e)
+        {
+            Enabled = false;
+            RubiksCube.rotateCubeDown();
+        }
+
+        private void bRotateCubeLeft_Click(object sender, EventArgs e)
+        {
+            Enabled = false;
+            RubiksCube.rotateCubeLeft();
+        }
+
+        private void bRotateCubeRight_Click(object sender, EventArgs e)
+        {
+            Enabled = false;
+            RubiksCube.rotateCubeRight();
+        }
+    }
+
+    public class DoublePtr
+    {
+        public DoublePtr(double value)
+        {
+            this.value = value;
+        }
+        private double value;
+
+        public static double operator+(DoublePtr left, DoublePtr right)
+        {
+            return left.value + right.value;
+        }
+
+        public static double operator-(DoublePtr left, DoublePtr right)
+        {
+            return left.value - right.value;
         }
     }
 }
