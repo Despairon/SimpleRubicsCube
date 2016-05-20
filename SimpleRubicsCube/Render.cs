@@ -38,6 +38,14 @@ namespace SimpleRubicsCube
         RIGHT = 8
     }
 
+    public enum axises
+    {
+        NONE = 0,
+        X = 1,
+        Y = 2,
+        Z = 4
+    }
+
     abstract public class Render
     {
         unsafe public static void init(ref SimpleOpenGlControl canvas)
@@ -58,12 +66,6 @@ namespace SimpleRubicsCube
             
             pieces = new List<CubePiece>(27);
             
-            fixed(double *cX = &xCubeRotAngle, cY = &yCubeRotAngle, cZ = &zCubeRotAngle)
-            {
-                currAxisX = cX;
-                currAxisY = cY;
-                currAxisZ = cZ;
-            }
         }
         private static SimpleOpenGlControl graphics;
         public static List<CubePiece> pieces;
@@ -72,13 +74,14 @@ namespace SimpleRubicsCube
         private static double yCubeRotAngle = 0;
         private static double zCubeRotAngle = 0;
 
+        private static int currXaxis = (int)axises.X;
+        private static int currYaxis = (int)axises.Y;
+        private static int currZaxis = (int)axises.Z;
+
         private static int rotationTics = 0; // one rotation is done in 100 tics
 
-        unsafe private static double* currAxisX;
-        unsafe private static double* currAxisY;
-        unsafe private static double* currAxisZ;
 
-        unsafe private static double rotAngle
+        private static double rotAngle
         {
             set
             {
@@ -86,47 +89,96 @@ namespace SimpleRubicsCube
                 switch (RubiksCube.rotatingDirection)
                 {
                     case (int)directions.UP:
-                        *currAxisX += value;
+                        rotateAxisOnAngle((int)axises.X, value);
                         break;
                     case (int)directions.DOWN:
-                        *currAxisX -= value;
+                        rotateAxisOnAngle((int)axises.X, value * (-1));
                         break;
                     case (int)directions.LEFT:
-                        *currAxisY -= value;
+                        rotateAxisOnAngle((int)axises.Y, value * (-1));
                         break;
                     case (int)directions.RIGHT:
-                        *currAxisY += value;
+                        rotateAxisOnAngle((int)axises.Y, value);
                         break;
                     default: break;
                 }
             }
         }
 
-        unsafe private static void changeAxises()
+        private static void changeAxises()
         {
                 switch (RubiksCube.rotatingDirection)
                 {
                     case (int)directions.UP:
-                        swapAxises(currAxisY, currAxisZ);
+                        swapAxises(ref currYaxis, ref currZaxis);
                         break;
                     case (int)directions.DOWN:
-                        swapAxises(currAxisY, currAxisZ);
+                        swapAxises(ref currYaxis, ref currZaxis);
                         break;
                     case (int)directions.LEFT:
-                        swapAxises(currAxisX, currAxisZ);
+                        swapAxises(ref currXaxis, ref currZaxis);
                         break;
                     case (int)directions.RIGHT:
-                        swapAxises(currAxisX, currAxisZ);
+                        swapAxises(ref currXaxis, ref currZaxis);
                         break;
                     default: break;
                 }
         }
 
-        unsafe private static void swapAxises(double* axis1, double* axis2)
+        private static void rotateAxisOnAngle(int axis, double angle)
         {
-            double* temp = axis1;
-            axis1 = axis2;
-            axis2 = temp;
+            switch(axis)
+            {
+                case (int)axises.X:
+                    switch (currXaxis)
+                    {
+                        case (int)axises.X:
+                            xCubeRotAngle += angle;
+                            break;
+                        case (int)axises.Y:
+                            yCubeRotAngle += angle;
+                            break;
+                        case (int)axises.Z:
+                            zCubeRotAngle += angle;
+                            break;
+                    }
+                    break;
+                case (int)axises.Y:
+                    switch (currYaxis)
+                    {
+                        case (int)axises.X:
+                            xCubeRotAngle += angle;
+                            break;
+                        case (int)axises.Y:
+                            yCubeRotAngle += angle;
+                            break;
+                        case (int)axises.Z:
+                            zCubeRotAngle += angle;
+                            break;
+                    }
+                    break;
+                case (int)axises.Z:
+                    switch (currZaxis)
+                    {
+                        case (int)axises.X:
+                            xCubeRotAngle += angle;
+                            break;
+                        case (int)axises.Y:
+                            yCubeRotAngle += angle;
+                            break;
+                        case (int)axises.Z:
+                            zCubeRotAngle += angle;
+                            break;
+                    }
+                    break;
+            }
+        }
+
+        private static void swapAxises(ref int axis1, ref int axis2)
+        {
+            axis1 *= axis2;
+            axis2 = axis1 / axis2;
+            axis1 /= axis2; 
         }
 
         public static void setColor(int color)
@@ -183,9 +235,9 @@ namespace SimpleRubicsCube
                     changeAxises();
                     RubiksCube.stopCubeRotating();
                     rotationTics = 0;
-                    MessageBox.Show("X :" + currAxisX->ToString());
-                    MessageBox.Show("Y :" + currAxisY->ToString());
-                    MessageBox.Show("Z :" + currAxisZ->ToString());
+                    MessageBox.Show("X :" + xCubeRotAngle.ToString());
+                    MessageBox.Show("Y :" + yCubeRotAngle.ToString());
+                    MessageBox.Show("Z :" + zCubeRotAngle.ToString());
 
                 }
                 

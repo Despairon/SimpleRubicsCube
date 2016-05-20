@@ -54,23 +54,4 @@ namespace SimpleRubicsCube
             RubiksCube.rotateCubeRight();
         }
     }
-
-    public class DoublePtr
-    {
-        public DoublePtr(double value)
-        {
-            this.value = value;
-        }
-        private double value;
-
-        public static double operator+(DoublePtr left, DoublePtr right)
-        {
-            return left.value + right.value;
-        }
-
-        public static double operator-(DoublePtr left, DoublePtr right)
-        {
-            return left.value - right.value;
-        }
-    }
 }
