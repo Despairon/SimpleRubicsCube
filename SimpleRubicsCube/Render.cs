@@ -38,14 +38,6 @@ namespace SimpleRubicsCube
         RIGHT = 8
     }
 
-    public enum axises
-    {
-        NONE = 0,
-        X = 1,
-        Y = 2,
-        Z = 4
-    }
-
     abstract public class Render
     {
         unsafe public static void init(ref SimpleOpenGlControl canvas)
@@ -70,18 +62,17 @@ namespace SimpleRubicsCube
         private static SimpleOpenGlControl graphics;
         public static List<CubePiece> pieces;
 
-        private static double xCubeRotAngle = 0;
-        private static double yCubeRotAngle = 0;
-        private static double zCubeRotAngle = 0;
+        private static double rotationAngleX = 0;
+        private static double rotationAngleY = 0;
 
-        private static int currXaxis = (int)axises.X;
-        private static int currYaxis = (int)axises.Y;
-        private static int currZaxis = (int)axises.Z;
+        private static Quaternion rotationQuatX = new Quaternion(1, 0, 0, rotationAngleX);
+        private static Quaternion rotationQuatY = new Quaternion(0, 1, 0, rotationAngleY);
+
+        private static float[] modelView = new float[16];
 
         private static int rotationTics = 0; // one rotation is done in 100 tics
 
-
-        private static double rotAngle
+        private static double rotationAngle
         {
             set
             {
@@ -89,97 +80,25 @@ namespace SimpleRubicsCube
                 switch (RubiksCube.rotatingDirection)
                 {
                     case (int)directions.UP:
-                        rotateAxisOnAngle((int)axises.X, value);
+                        rotationAngleX += value;
                         break;
                     case (int)directions.DOWN:
-                        rotateAxisOnAngle((int)axises.X, value * (-1));
+                        rotationAngleX -= value;
                         break;
                     case (int)directions.LEFT:
-                        rotateAxisOnAngle((int)axises.Y, value * (-1));
+                        rotationAngleY -= value;
                         break;
                     case (int)directions.RIGHT:
-                        rotateAxisOnAngle((int)axises.Y, value);
+                        rotationAngleY += value;
                         break;
                     default: break;
                 }
+
+                rotationQuatX = new Quaternion(1, 0, 0, rotationAngleX);
+                rotationQuatY = new Quaternion(0, 1, 0, rotationAngleY);
             }
         }
 
-        private static void changeAxises()
-        {
-                switch (RubiksCube.rotatingDirection)
-                {
-                    case (int)directions.UP:
-                        swapAxises(ref currYaxis, ref currZaxis);
-                        break;
-                    case (int)directions.DOWN:
-                        swapAxises(ref currYaxis, ref currZaxis);
-                        break;
-                    case (int)directions.LEFT:
-                        swapAxises(ref currXaxis, ref currZaxis);
-                        break;
-                    case (int)directions.RIGHT:
-                        swapAxises(ref currXaxis, ref currZaxis);
-                        break;
-                    default: break;
-                }
-        }
-
-        private static void rotateAxisOnAngle(int axis, double angle)
-        {
-            switch(axis)
-            {
-                case (int)axises.X:
-                    switch (currXaxis)
-                    {
-                        case (int)axises.X:
-                            xCubeRotAngle += angle;
-                            break;
-                        case (int)axises.Y:
-                            yCubeRotAngle += angle;
-                            break;
-                        case (int)axises.Z:
-                            zCubeRotAngle += angle;
-                            break;
-                    }
-                    break;
-                case (int)axises.Y:
-                    switch (currYaxis)
-                    {
-                        case (int)axises.X:
-                            xCubeRotAngle += angle;
-                            break;
-                        case (int)axises.Y:
-                            yCubeRotAngle += angle;
-                            break;
-                        case (int)axises.Z:
-                            zCubeRotAngle += angle;
-                            break;
-                    }
-                    break;
-                case (int)axises.Z:
-                    switch (currZaxis)
-                    {
-                        case (int)axises.X:
-                            xCubeRotAngle += angle;
-                            break;
-                        case (int)axises.Y:
-                            yCubeRotAngle += angle;
-                            break;
-                        case (int)axises.Z:
-                            zCubeRotAngle += angle;
-                            break;
-                    }
-                    break;
-            }
-        }
-
-        private static void swapAxises(ref int axis1, ref int axis2)
-        {
-            axis1 *= axis2;
-            axis2 = axis1 / axis2;
-            axis1 /= axis2; 
-        }
 
         public static void setColor(int color)
         {
@@ -217,42 +136,42 @@ namespace SimpleRubicsCube
                           0.0, 1.0, 0.0);
         }
 
-        unsafe public static void drawAll()
+        public static void drawAll()
         {
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
             Gl.glLoadIdentity();
-
+       
             renderCamera();
 
-            Gl.glPushMatrix();
 
             if (RubiksCube.isCubeRotating)
             {
-                rotAngle = (float)9 / (float)10;
+                rotationAngle = (float)9 / (float)10;
                 rotationTics++;
                 if (rotationTics == 100)
                 {
-                    changeAxises();
                     RubiksCube.stopCubeRotating();
                     rotationTics = 0;
-                    MessageBox.Show("X :" + xCubeRotAngle.ToString());
-                    MessageBox.Show("Y :" + yCubeRotAngle.ToString());
-                    MessageBox.Show("Z :" + zCubeRotAngle.ToString());
-
+                    rotationAngleX = 0;
+                    rotationAngleY = 0;
+                    //Gl.glGetFloatv(Gl.GL_MODELVIEW_MATRIX, modelView);
                 }
                 
             }
 
-            Gl.glRotated(xCubeRotAngle, 1, 0, 0);
-            Gl.glRotated(yCubeRotAngle, 0, 1, 0);
-            Gl.glRotated(zCubeRotAngle, 0, 0, 1);
+            double[] rotationMatrixX = new double[16];
+            double[] rotationMatrixY = new double[16];
 
-           
-            foreach (var cube in pieces)
-                cube.draw();
+            rotationQuatX.createMatrix(ref rotationMatrixX);
+            rotationQuatY.createMatrix(ref rotationMatrixY);
 
-            
-            Gl.glPopMatrix();
+            Gl.glMultMatrixd(rotationMatrixX);
+            Gl.glMultMatrixd(rotationMatrixY);
+
+            foreach (var piece in pieces)
+                piece.draw();
+
+
             Gl.glFlush();
             graphics.Invalidate();
         }
@@ -309,7 +228,6 @@ namespace SimpleRubicsCube
                         Gl.glRotated(90, 1, 0, 0);
                         break;
                 }
-
                 Gl.glBegin(Gl.GL_TRIANGLES);
 
                 Gl.glVertex3d(-0.5, -0.5, 0.5);

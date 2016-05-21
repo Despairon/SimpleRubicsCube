@@ -148,6 +148,7 @@ namespace SimpleRubicsCube
             cubeMatrix[2, 1, 0] = farSide.left.midPiece; cubeMatrix[2, 1, 1] = farSide.middle.midPiece; cubeMatrix[2, 1, 2] = farSide.right.midPiece;
             cubeMatrix[2, 2, 0] = farSide.left.botPiece; cubeMatrix[2, 2, 1] = farSide.middle.botPiece; cubeMatrix[2, 2, 2] = farSide.right.botPiece;
 
+
         }
         private static Render.CubePiece[,,] cubeMatrix;
         public static Main_form form { private get; set; }
