@@ -12,7 +12,14 @@ namespace SimpleRubicsCube
     {
         public static void buildCube()
         {
-            cubeMatrix = new Render.CubePiece[3, 3, 3];
+            cubeMatrix  = new Render.CubePiece[3, 3, 3];
+
+            frontMatrix = new Render.CubePiece[3, 3];
+            backMatrix  = new Render.CubePiece[3, 3];
+            leftMatrix  = new Render.CubePiece[3, 3];
+            rightMatrix = new Render.CubePiece[3, 3];
+            topMatrix   = new Render.CubePiece[3, 3];
+            botMatrix   = new Render.CubePiece[3, 3];
 
             CubeSide frontSide;
             CubeSide middleSide;
@@ -136,23 +143,41 @@ namespace SimpleRubicsCube
                                                               (int)colors.GREEN, (int)sides.BOTTOM,
                                                               -1, -1, 1);
 
-            cubeMatrix[0, 0, 0] = frontSide.left.topPiece; cubeMatrix[0, 0, 1] = frontSide.middle.topPiece; cubeMatrix[0, 0, 2] = frontSide.right.topPiece;
-            cubeMatrix[0, 1, 0] = frontSide.left.midPiece; cubeMatrix[0, 1, 1] = frontSide.middle.midPiece; cubeMatrix[0, 1, 2] = frontSide.right.midPiece;
-            cubeMatrix[0, 2, 0] = frontSide.left.botPiece; cubeMatrix[0, 2, 1] = frontSide.middle.botPiece; cubeMatrix[0, 2, 2] = frontSide.right.botPiece;
+            cubeMatrix[0, 0, 0] = frontSide.left.topPiece; cubeMatrix[0, 1, 0] = frontSide.middle.topPiece; cubeMatrix[0, 2, 0] = frontSide.right.topPiece;
+            cubeMatrix[0, 0, 1] = frontSide.left.midPiece; cubeMatrix[0, 1, 1] = frontSide.middle.midPiece; cubeMatrix[0, 2, 1] = frontSide.right.midPiece;
+            cubeMatrix[0, 0, 2] = frontSide.left.botPiece; cubeMatrix[0, 1, 2] = frontSide.middle.botPiece; cubeMatrix[0, 2, 2] = frontSide.right.botPiece;
 
-            cubeMatrix[1, 0, 0] = middleSide.left.topPiece; cubeMatrix[1, 0, 1] = middleSide.middle.topPiece; cubeMatrix[1, 0, 2] = middleSide.right.topPiece;
-            cubeMatrix[1, 1, 0] = middleSide.left.midPiece; cubeMatrix[1, 1, 1] = middleSide.middle.midPiece; cubeMatrix[1, 1, 2] = middleSide.right.midPiece;
-            cubeMatrix[1, 2, 0] = middleSide.left.botPiece; cubeMatrix[1, 2, 1] = middleSide.middle.botPiece; cubeMatrix[1, 2, 2] = middleSide.right.botPiece;
+            cubeMatrix[1, 0, 0] = middleSide.left.topPiece; cubeMatrix[1, 1, 0] = middleSide.middle.topPiece; cubeMatrix[1, 2, 0] = middleSide.right.topPiece;
+            cubeMatrix[1, 0, 1] = middleSide.left.midPiece; cubeMatrix[1, 1, 1] = middleSide.middle.midPiece; cubeMatrix[1, 2, 1] = middleSide.right.midPiece;
+            cubeMatrix[1, 0, 2] = middleSide.left.botPiece; cubeMatrix[1, 1, 2] = middleSide.middle.botPiece; cubeMatrix[1, 2, 2] = middleSide.right.botPiece;
 
-            cubeMatrix[2, 0, 0] = farSide.left.topPiece; cubeMatrix[2, 0, 1] = farSide.middle.topPiece; cubeMatrix[2, 0, 2] = farSide.right.topPiece;
-            cubeMatrix[2, 1, 0] = farSide.left.midPiece; cubeMatrix[2, 1, 1] = farSide.middle.midPiece; cubeMatrix[2, 1, 2] = farSide.right.midPiece;
-            cubeMatrix[2, 2, 0] = farSide.left.botPiece; cubeMatrix[2, 2, 1] = farSide.middle.botPiece; cubeMatrix[2, 2, 2] = farSide.right.botPiece;
+            cubeMatrix[2, 0, 0] = farSide.left.topPiece; cubeMatrix[2, 1, 0] = farSide.middle.topPiece; cubeMatrix[2, 2, 0] = farSide.right.topPiece;
+            cubeMatrix[2, 0, 1] = farSide.left.midPiece; cubeMatrix[2, 1, 1] = farSide.middle.midPiece; cubeMatrix[2, 2, 1] = farSide.right.midPiece;
+            cubeMatrix[2, 0, 2] = farSide.left.botPiece; cubeMatrix[2, 1, 2] = farSide.middle.botPiece; cubeMatrix[2, 2, 2] = farSide.right.botPiece;
 
+            for (int i=0; i<3; i++)
+                for (int j=0; j<3; j++)
+                {
+                    frontMatrix[i, j] = cubeMatrix[0,   i,  j];
+                    backMatrix [i, j] = cubeMatrix[2,   i,  j];
+                    leftMatrix [i, j] = cubeMatrix[2-i, 0,  j];
+                    rightMatrix[i, j] = cubeMatrix[2-i, 2,  j];
+                    topMatrix  [i, j] = cubeMatrix[2-i, j, 0];
+                    botMatrix  [i, j] = cubeMatrix[2-i, j, 2];
+                }
 
         }
-        private static Render.CubePiece[,,] cubeMatrix;
+        public static Render.CubePiece[,,] cubeMatrix   { get; private set; }
+
+        public static Render.CubePiece[,]  frontMatrix  { get; private set; }
+        public static Render.CubePiece[,]  backMatrix   { get; private set; }
+        public static Render.CubePiece[,]  leftMatrix   { get; private set; }
+        public static Render.CubePiece[,]  rightMatrix  { get; private set; }
+        public static Render.CubePiece[,]  topMatrix    { get; private set; }
+        public static Render.CubePiece[,]  botMatrix { get; private set; } 
+
         public static Main_form form { private get; set; }
-        public  static bool isCubeRotating { get; private set; } = false;
+        public  static bool isCubeRotating {   get; private set; } = false;
         public  static int rotatingDirection { get; private set; } = (int)directions.NONE;
 
 

@@ -55,12 +55,9 @@ namespace SimpleRubicsCube
             Gl.glLoadIdentity();
             Gl.glEnable(Gl.GL_DEPTH_TEST);
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
-            
-            pieces = new List<CubePiece>(27);
-            
+                    
         }
         private static SimpleOpenGlControl graphics;
-        public static List<CubePiece> pieces;
 
         private static double rotationX = 0;
         private static double rotationY = 0;
@@ -141,6 +138,7 @@ namespace SimpleRubicsCube
                 rotationTics++;
                 if (rotationTics == 100)
                 {
+                    //swapSides(RubiksCube.rotatingDirection, RubiksCube.cubeMatrix);
                     RubiksCube.stopCubeRotating();
                     rotationTics = 0;
                     rotationX = 0;
@@ -152,11 +150,20 @@ namespace SimpleRubicsCube
             Gl.glRotated(rotationX, 1,0,0);
             Gl.glRotated(rotationY, 0, 1, 0);
 
-            foreach (var piece in pieces)
+            foreach (var piece in RubiksCube.cubeMatrix)
                 piece.draw();
 
             Gl.glFlush();
             graphics.Invalidate();
+        }
+
+        public static void swapSides(int direction, CubePiece[,,] m)
+        {
+            switch (direction)
+            {
+                case (int)directions.DOWN:
+                    break;
+            }
         }
 
         public class CubePiece
@@ -175,7 +182,6 @@ namespace SimpleRubicsCube
                 this.x = x;
                 this.y = y;
                 this.z = z;
-                pieces.Add(this);
             }
             private int side1Color;
             private int side2Color;
@@ -253,7 +259,6 @@ namespace SimpleRubicsCube
 
                 Gl.glPopMatrix();
             }
-
         }
 
     }
