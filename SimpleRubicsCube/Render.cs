@@ -62,13 +62,8 @@ namespace SimpleRubicsCube
         private static SimpleOpenGlControl graphics;
         public static List<CubePiece> pieces;
 
-        private static double rotationAngleX = 0;
-        private static double rotationAngleY = 0;
-
-        private static Quaternion rotationQuatX = new Quaternion(1, 0, 0, rotationAngleX);
-        private static Quaternion rotationQuatY = new Quaternion(0, 1, 0, rotationAngleY);
-
-        private static float[] modelView = new float[16];
+        private static double rotationX = 0;
+        private static double rotationY = 0;
 
         private static int rotationTics = 0; // one rotation is done in 100 tics
 
@@ -80,22 +75,19 @@ namespace SimpleRubicsCube
                 switch (RubiksCube.rotatingDirection)
                 {
                     case (int)directions.UP:
-                        rotationAngleX += value;
+                        rotationX += value;
                         break;
                     case (int)directions.DOWN:
-                        rotationAngleX -= value;
+                        rotationX -= value;
                         break;
                     case (int)directions.LEFT:
-                        rotationAngleY -= value;
+                        rotationY -= value;
                         break;
                     case (int)directions.RIGHT:
-                        rotationAngleY += value;
+                        rotationY += value;
                         break;
                     default: break;
                 }
-
-                rotationQuatX = new Quaternion(1, 0, 0, rotationAngleX);
-                rotationQuatY = new Quaternion(0, 1, 0, rotationAngleY);
             }
         }
 
@@ -140,9 +132,8 @@ namespace SimpleRubicsCube
         {
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
             Gl.glLoadIdentity();
-       
-            renderCamera();
 
+            renderCamera();
 
             if (RubiksCube.isCubeRotating)
             {
@@ -152,25 +143,17 @@ namespace SimpleRubicsCube
                 {
                     RubiksCube.stopCubeRotating();
                     rotationTics = 0;
-                    rotationAngleX = 0;
-                    rotationAngleY = 0;
-                    //Gl.glGetFloatv(Gl.GL_MODELVIEW_MATRIX, modelView);
+                    rotationX = 0;
+                    rotationY = 0;
                 }
                 
             }
 
-            double[] rotationMatrixX = new double[16];
-            double[] rotationMatrixY = new double[16];
-
-            rotationQuatX.createMatrix(ref rotationMatrixX);
-            rotationQuatY.createMatrix(ref rotationMatrixY);
-
-            Gl.glMultMatrixd(rotationMatrixX);
-            Gl.glMultMatrixd(rotationMatrixY);
+            Gl.glRotated(rotationX, 1,0,0);
+            Gl.glRotated(rotationY, 0, 1, 0);
 
             foreach (var piece in pieces)
                 piece.draw();
-
 
             Gl.glFlush();
             graphics.Invalidate();
@@ -194,15 +177,15 @@ namespace SimpleRubicsCube
                 this.z = z;
                 pieces.Add(this);
             }
-            public int side1Color { get;}
-            public int side2Color { get; }
-            public int side3Color { get; }
-            public int side1 { get; }
-            public int side2 { get; }
-            public int side3 { get; }
-            public double x { get; }
-            public double y { get; }
-            public double z { get; }
+            private int side1Color;
+            private int side2Color;
+            private int side3Color;
+            private int side1;
+            private int side2;
+            private int side3;
+            private double x;
+            private double y;
+            private double z;
 
             private void drawFace(int side)
             {
@@ -246,7 +229,6 @@ namespace SimpleRubicsCube
 
             public void draw()
             {
-
                 Gl.glPushMatrix();
                 Gl.glColor3d(0, 0, 0);
                 Gl.glScaled(0.15, 0.15, 0.15);
@@ -261,7 +243,7 @@ namespace SimpleRubicsCube
 
                 setColor(side3Color);
                 drawFace(side3);
-
+                
                 foreach (int i in Enum.GetValues(typeof(sides)))
                     if (i != side1 && i != side2 && i != side3)
                     {
