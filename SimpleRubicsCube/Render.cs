@@ -2,6 +2,7 @@
 using Tao.OpenGl;
 using Tao.FreeGlut;
 using Tao.Platform.Windows;
+using Tao.DevIl;
 using System;
 using System.Windows.Forms;
 
@@ -55,7 +56,8 @@ namespace SimpleRubicsCube
             Gl.glLoadIdentity();
             Gl.glEnable(Gl.GL_DEPTH_TEST);
             Gl.glClear(Gl.GL_COLOR_BUFFER_BIT | Gl.GL_DEPTH_BUFFER_BIT);
-                    
+
+
         }
         private static SimpleOpenGlControl graphics;
 
@@ -147,7 +149,7 @@ namespace SimpleRubicsCube
                 
             }
 
-            Gl.glRotated(rotationX, 1,0,0);
+            Gl.glRotated(rotationX, 1, 0, 0);
             Gl.glRotated(rotationY, 0, 1, 0);
 
             foreach (var piece in RubiksCube.cubeMatrix)
@@ -157,14 +159,14 @@ namespace SimpleRubicsCube
             graphics.Invalidate();
         }
 
-        public static void swapSides(int direction, CubePiece[,,] m)
-        {
-            switch (direction)
-            {
-                case (int)directions.DOWN:
-                    break;
-            }
-        }
+        //public static void swapSides(int direction, CubePiece[,,] m)
+        //{
+        //    switch (direction)
+        //    {
+        //        case (int)directions.DOWN:
+        //            break;
+        //    }
+        //}
 
         public class CubePiece
         {
