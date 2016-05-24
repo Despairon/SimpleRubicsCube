@@ -66,6 +66,8 @@ namespace SimpleRubicsCube
 
         private static int rotationTics = 0; // one rotation is done in 100 tics
 
+        private static int timer = 0;
+
         private static double rotationAngle
         {
             set
@@ -159,14 +161,14 @@ namespace SimpleRubicsCube
             graphics.Invalidate();
         }
 
-        //public static void swapSides(int direction, CubePiece[,,] m)
-        //{
-        //    switch (direction)
-        //    {
-        //        case (int)directions.DOWN:
-        //            break;
-        //    }
-        //}
+        public static void swapSides(int direction, CubePiece[,,] m)
+        {
+            switch (direction)
+            {
+                case (int)directions.DOWN:
+                    break;
+            }
+        }
 
         public class CubePiece
         {
@@ -185,6 +187,7 @@ namespace SimpleRubicsCube
                 this.y = y;
                 this.z = z;
             }
+
             private int side1Color;
             private int side2Color;
             private int side3Color;
@@ -218,7 +221,9 @@ namespace SimpleRubicsCube
                     case (int)sides.BOTTOM:
                         Gl.glRotated(90, 1, 0, 0);
                         break;
+                    default: break;
                 }
+
                 Gl.glBegin(Gl.GL_TRIANGLES);
 
                 Gl.glVertex3d(-0.5, -0.5, 0.5);
