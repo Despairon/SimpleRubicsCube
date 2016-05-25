@@ -142,7 +142,7 @@ namespace SimpleRubicsCube
                 rotationTics++;
                 if (rotationTics == 100)
                 {
-                    //swapSides(RubiksCube.rotatingDirection, RubiksCube.cubeMatrix);
+                    swapSides(RubiksCube.rotatingDirection);
                     RubiksCube.stopCubeRotating();
                     rotationTics = 0;
                     rotationX = 0;
@@ -161,14 +161,25 @@ namespace SimpleRubicsCube
             graphics.Invalidate();
         }
 
-        public static void swapSides(int direction, CubePiece[,,] m)
+        public static void swapSides(int rotDirection)
         {
-            switch (direction)
+            switch (rotDirection)
             {
+                case (int)directions.UP:
+                    RubiksCube.frontMatrix[0, 0].swap(RubiksCube.botMatrix[0, 0]);
+                    /*for (int i = 0; i < 3; i++)
+                        for (int j = 0; j < 3; j++)
+                            RubiksCube.frontMatrix[i, j].swap(RubiksCube.botMatrix[i,j]);*/
+                    break;
                 case (int)directions.DOWN:
+                    break;
+                case (int)directions.LEFT:
+                    break;
+                case (int)directions.RIGHT:
                     break;
             }
         }
+
 
         public class CubePiece
         {
@@ -265,6 +276,21 @@ namespace SimpleRubicsCube
                     }
 
                 Gl.glPopMatrix();
+            }
+
+            public void swap(CubePiece piece)
+            {
+                int color1 = piece.side1Color;
+                int color2 = piece.side2Color;
+                int color3 = piece.side3Color;
+
+                piece.side1Color = side1Color;
+                piece.side2Color = side2Color;
+                piece.side3Color = side3Color;
+
+                side1Color = color1;
+                side2Color = color2;
+                side3Color = color3;
             }
         }
 
